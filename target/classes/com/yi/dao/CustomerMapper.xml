@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yi.dao.CustomerMapper">
+
+    <resultMap id="CustomerMapper" type="com.yi.pojo.Customer">
+        <id column="c_id" property="c_id"/>
+        <result column="name" property="c_name"/>
+        <result column="contacts" property="contacts"/>
+        <result column="phone" property="phone"/>
+        <result column="address" property="address"/>
+        <result column="remarks" property="remarks"/>
+    </resultMap>
+
+    <insert id="insertCustomer" keyProperty="c_id" useGeneratedKeys="true">
+        insert into
+        customer(c_id,name,contacts,phone,address,remarks)
+        values (#{c_id},#{c_name},#{contacts},#{phone},#{address},#{remarks})
+    </insert>
+
+    <select id="queryAllCustomer" resultMap="CustomerMapper">
+        select * from customer
+    </select>
+
+    <select id="findByNameCustomerLike" parameterType="string" resultMap="CustomerMapper">
+        select * from customer where name like '%${value}%'
+    </select>
+
+    <select id="queryCustomerById" parameterType="int" resultMap="CustomerMapper">
+        select * from customer where c_id=#{c_id}
+    </select>
+
+    <delete id="deleteCustomerById" parameterType="int">
+        delete from customer
+        where c_id=#{c_id}
+    </delete>
+
+    <update id="updateCustomer" parameterType="customer">
+        update customer
+        set
+        name=#{c_name},contacts=#{contacts},phone=#{phone},address=#{address},remarks=#{remarks}
+        where
+        c_id = #{c_id}
+    </update>
+
+    <select id="findByNameAndByContactCustomerLike" resultMap="CustomerMapper">
+        select * from customer where name like '%${c_name}%' and contacts like '%${contacts}%'
+    </select>
+</mapper>

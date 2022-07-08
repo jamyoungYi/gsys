@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yi.dao.CustomerOrderMapper">
+
+    <resultMap id="customerOrderMapper" type="com.yi.pojo.CustomerOrder">
+        <id column="co_id" property="co_id"/>
+        <result column="c_id" property="c_id"/>
+        <result column="g_id" property="g_id"/>
+        <result column="type" property="type"/>
+        <result column="count" property="count"/>
+        <result column="createTime" property="createTime"/>
+        <result column="remarks" property="remarks"/>
+    </resultMap>
+
+    <insert id="addCustomerOrder" keyProperty="co_id" useGeneratedKeys="true">
+        insert into
+        customerorder(co_id,c_id,g_id,type,count,createTime,remarks)
+        values (#{co_id},#{c_id},#{g_id},#{type},#{count},#{createTime},#{remarks})
+    </insert>
+
+</mapper>

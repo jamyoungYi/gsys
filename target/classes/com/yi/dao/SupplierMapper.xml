@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yi.dao.SupplierMapper">
+
+    <resultMap id="SupplierMapper" type="com.yi.pojo.Supplier">
+        <id column="s_id" property="s_id"/>
+        <result column="name" property="s_name"/>
+        <result column="contacts" property="contacts"/>
+        <result column="phone" property="phone"/>
+        <result column="address" property="address"/>
+        <result column="remarks" property="remarks"/>
+    </resultMap>
+
+    <insert id="insertSupplier">
+        insert into
+        supplier(name,contacts,phone,address,remarks)
+        values (#{s_name},#{contacts},#{phone},#{address},#{remarks})
+    </insert>
+
+    <select id="queryAllSupplier" resultMap="SupplierMapper">
+        select * from supplier
+    </select>
+
+    <select id="findByNameSupplierLike" parameterType="string" resultMap="SupplierMapper">
+        select * from supplier where name like '%${value}%'
+    </select>
+
+    <select id="querySupplierById" parameterType="int" resultMap="SupplierMapper">
+        select * from supplier where s_id=#{s_id}
+    </select>
+
+    <delete id="deleteSupplierById" parameterType="int">
+        delete from supplier
+        where s_id=#{s_id}
+    </delete>
+
+    <update id="updateSupplier" parameterType="supplier" >
+        update supplier
+        set
+        name=#{s_name},contacts=#{contacts},phone=#{phone},address=#{address},remarks=#{remarks}
+        where
+        s_id = #{s_id}
+    </update>
+
+    <select id="findByNameAndByContactSupplierLike" resultMap="SupplierMapper">
+        select * from supplier where name like '%${s_name}%' and contacts like '%${contacts}%'
+    </select>
+</mapper>

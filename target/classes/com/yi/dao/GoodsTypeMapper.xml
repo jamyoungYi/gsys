@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yi.dao.GoodsTypeMapper">
+    <resultMap id="GoodsTypeMapper" type="goodsType">
+        <id property="id" column="id"/>
+        <result property="t_name" column="name"/>
+    </resultMap>
+    <insert id="addGoodsType">
+        insert into
+        goodstype(name)
+        values (#{t_name})
+    </insert>
+
+    <delete id="deleteGoodsTypeById" parameterType="int">
+        delete from goodstype where id=#{id}
+    </delete>
+
+    <update id="updateGoodsType" parameterType="goodsType">
+        update goodstype
+        set
+        name=#{t_name}
+        where
+        id = #{id}
+    </update>
+
+    <select id="findGoodsTypeById" parameterType="int" resultMap="GoodsTypeMapper">
+        select * from goodstype where id = #{id}
+    </select>
+
+    <select id="queryAllGoodsType" resultMap="GoodsTypeMapper">
+        select * from goodstype
+    </select>
+
+    <select id="findByNameGoodsLike" resultMap="GoodsTypeMapper">
+        select * from goodstype
+        where name like '%${value}%'
+    </select>
+</mapper>

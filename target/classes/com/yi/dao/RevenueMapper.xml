@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yi.dao.RevenueMapper">
+    <resultMap id="RevenueMapper" type="revenue">
+        <result property="shze" column="shze"/>
+        <result property="thze" column="thze"/>
+        <result property="rkze" column="rkze"/>
+        <result property="ckze" column="ckze"/>
+        <result property="ykze" column="ykze"/>
+        <result property="createTime" column="createTime"/>
+    </resultMap>
+
+    <select id="findMonthRevenue" resultMap="RevenueMapper">
+        select shze,thze,rkze,ckze,(shze+ckze-thze-rkze) as ykze, shzeTable.createTime
+            from
+                (select sum(price*customerorder.count) as shze,DATE_FORMAT(createTime,'%Y-%m') as createTime from customerorder,goods
+                 where customerorder.g_id=goods.id
+                   and customerorder.type='销售出库'
+                 GROUP BY DATE_FORMAT(createTime,'%Y-%m')) as shzeTable,
+                (select sum(price*customerorder.count) as thze,DATE_FORMAT(createTime,'%Y-%m') as createTime from customerorder,goods
+                 where customerorder.g_id=goods.id
+                   and customerorder.type='客户退货'
+                 GROUP BY DATE_FORMAT(createTime,'%Y-%m')) as thzeTable,
+                (select sum(buyprice*supplierorder.count) as rkze,DATE_FORMAT(createTime,'%Y-%m') as createTime from supplierorder,goods
+                 where supplierorder.g_id=goods.id
+                   and supplierorder.type='进货入库'
+                 GROUP BY DATE_FORMAT(createTime,'%Y-%m')) as rkze,
+                (select sum(buyprice*supplierorder.count) as ckze,DATE_FORMAT(createTime,'%Y-%m') as createTime from supplierorder,goods
+                 where supplierorder.g_id=goods.id
+                   and supplierorder.type='退货出库'
+                 GROUP BY DATE_FORMAT(createTime,'%Y-%m')) as ckze
+            where shzeTable.createTime = thzeTable.createTime and shzeTable.createTime =rkze.createTime and shzeTable.createTime = ckze.createTime
+    </select>
+</mapper>

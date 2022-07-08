@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--配置数据源，交给Spring去做-->
+    <typeAliases>
+        <package name="com.yi.pojo"/>
+    </typeAliases>
+
+    <mappers>
+        <mapper class="com.yi.dao.GoodsMapper"/>
+        <mapper class="com.yi.dao.GoodsTypeMapper"/>
+        <mapper class="com.yi.dao.CustomerMapper"/>
+        <mapper class="com.yi.dao.CustomerOrderMapper"/>
+        <mapper class="com.yi.dao.UserMapper"/>
+        <mapper class="com.yi.dao.SupplierMapper"/>
+        <mapper class="com.yi.dao.SupplierOrderMapper"/>
+        <mapper class="com.yi.dao.RevenueMapper"/>
+    </mappers>
+</configuration>
